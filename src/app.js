@@ -1,5 +1,5 @@
 import express from 'express';
-import { addTweet, addUser, verifyUserExistence } from './utils.js';
+import { addTweet, addUser, getTweetsUsingPage, verifyUserExistence } from './utils.js';
 
 const app = express();
 app.use(express.json());
@@ -21,4 +21,11 @@ app.post("/tweets", (req, res) => {
 
     addTweet(username, tweet);
     res.status(200).send("OK");
+});
+
+app.get("/tweets", (req, res) => {
+    const { page } = req.body;
+    const retTweets = getTweetsUsingPage(page);
+
+    res.send(retTweets);
 });

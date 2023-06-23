@@ -7,6 +7,7 @@ function addUser(username, avatar) {
         avatar,
     }
     users.push(template);
+    console.log(users);
 }
 
 function addTweet(username, tweet) {
@@ -15,21 +16,21 @@ function addTweet(username, tweet) {
         tweet,
     }
     tweets.push(template);
+    console.log(tweets);
 }
 
 function verifyUserExistence(username) {
     return users.some(curr => curr.username === username);
 }
 
-function getTweetsUsingPage(pageId) {
+function getTweetsUsingPage(pageId = 1) {
     const indexFall = (pageId - 1) * 10;
-    const startPoint = tweets.length - indexFall;
+    const startPoint = (tweets.length - indexFall - 1 >= 0) ? (tweets.length - indexFall - 1) : 0;
     const finishPoint = (startPoint - 10) >= 0 ? (startPoint - 10) : 0; 
-
-    if(startPoint === 0) return [];
+    if(startPoint == 0) return [];
 
     const pageTweets = [];
-    for (let index = startPoint; finishPoint > index; index--) {
+    for (let index = startPoint; index > finishPoint; index--) {
         const curr = tweets[index];
         const user = users.find( user_ => user_.username === curr.username);
         
