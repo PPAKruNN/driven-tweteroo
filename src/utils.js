@@ -14,11 +14,11 @@ function addTweet(username, tweet) {
         username,
         tweet,
     }
-    tweet.push(template);
+    tweets.push(template);
 }
 
 function verifyUserExistence(username) {
-    return users.any(curr => curr.username === username);
+    return users.some(curr => curr.username === username);
 }
 
 function getTweetsUsingPage(pageId) {
