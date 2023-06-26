@@ -37,10 +37,10 @@ function getTweetsUsingUsername(username) {
 function getTweetsUsingPage(pageId = 1) {
     const indexFall = (pageId - 1) * 10;
     const startPoint = (tweets.length - indexFall - 1 >= 0) ? (tweets.length - indexFall - 1) : 0;
-    const finishPoint = (startPoint - 10) >= 0 ? (startPoint - 10) : 0; 
+    const finishPoint = (startPoint - 10) >= 0 ? (startPoint - 10) : -1; 
     if(tweets.length == 0) return [];
     const pageTweets = [];
-    for (let index = startPoint; index >= finishPoint; index--) {
+    for (let index = startPoint; index > finishPoint; index--) {
         const curr = tweets[index];
         const user = users.find( user_ => user_.username === curr.username);
         
