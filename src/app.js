@@ -1,5 +1,5 @@
 import express from 'express';
-import { addTweet, addUser, getTweetsUsingPage, verifyIfStringIsValid, verifyUserExistence } from './utils.js';
+import { addTweet, addUser, getTweetsUsingPage, getTweetsUsingUsername, verifyIfStringIsValid, verifyUserExistence } from './utils.js';
 
 const app = express();
 app.use(express.json());
@@ -28,9 +28,17 @@ app.post("/tweets", (req, res) => {
 
 app.get("/tweets", (req, res) => {
     const page = req.query.page;
-    if(page < 1) res.status(400).send("Informe uma página válida!");
-    
+    if(page < 1) return res.status(400).send("Informe uma página válida!");
+
     const retTweets = getTweetsUsingPage(page);
 
     res.send(retTweets);
+});
+
+
+app.get("/tweets/:username", (req, res) => {
+    const username = req.params.username;
+    if(!verifyIfStringIsValid(username)) return res.sendStatus(400);   
+    if(!verifyUserExistence(username)) return res.sendStatus(401);
+    return res.send(getTweetsUsingUsername(username)); 
 });

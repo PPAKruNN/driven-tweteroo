@@ -28,6 +28,13 @@ function verifyIfStringIsValid( str )  {
     return (isNaN(tryNum) && str != "" && str != undefined && typeof str == "string");
 }
 
+function getTweetsUsingUsername(username) {
+    let findTweets = [];
+    findTweets = tweets.filter( currtw => currtw.username === username );
+    return findTweets;
+}
+
+
 function getTweetsUsingPage(pageId = 1) {
     const indexFall = (pageId - 1) * 10;
     const startPoint = (tweets.length - indexFall - 1 >= 0) ? (tweets.length - indexFall - 1) : 0;
@@ -65,4 +72,4 @@ function isValidHttpUrl(string) {
   }
 
 
-export {verifyIfStringIsValid, getTweetsUsingPage, verifyUserExistence, addTweet, addUser};
+export {getTweetsUsingUsername, verifyIfStringIsValid, getTweetsUsingPage, verifyUserExistence, addTweet, addUser};
