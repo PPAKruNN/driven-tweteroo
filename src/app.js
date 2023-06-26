@@ -1,5 +1,5 @@
 import express from 'express';
-import { addTweet, addUser, getTweetsUsingPage, verifyUserExistence } from './utils.js';
+import { addTweet, addUser, getTweetsUsingPage, verifyIfStringIsValid, verifyUserExistence } from './utils.js';
 
 const app = express();
 app.use(express.json());
@@ -8,23 +8,28 @@ console.log("Servidor iniciado na porta 5000!");
 
 app.post("/sign-up", (req, res) => {
     const {username, avatar} = req.body;
-    if(!username || !avatar) return res.sendStatus(400);
+    if(!verifyIfStringIsValid(username) || !verifyIfStringIsValid(avatar)) return res.status(400).send("Todos os campos são obrigatórios!");
 
     addUser(username, avatar);
-    res.status(200).send("OK");
+    res.status(201).send("OK");
 });
 
 app.post("/tweets", (req, res) => {
-    const {username, tweet} = req.body;
+    const {tweet} = req.body;
+    const username = req.headers.user;
+    if(!verifyIfStringIsValid(username) || !verifyIfStringIsValid(tweet)) return res.status(400).send("Todos os campos são obrigatórios!");
+
     const isUser = verifyUserExistence(username);
-    if(!isUser) return res.sendStatus(401);
+    if (!isUser) return res.sendStatus(401);
 
     addTweet(username, tweet);
-    res.status(200).send("OK");
+    res.status(201).send("OK");
 });
 
 app.get("/tweets", (req, res) => {
-    const { page } = req.body;
+    const page = req.query.page;
+    if(page < 1) res.status(400).send("Informe uma página válida!");
+    
     const retTweets = getTweetsUsingPage(page);
 
     res.send(retTweets);

@@ -7,7 +7,6 @@ function addUser(username, avatar) {
         avatar,
     }
     users.push(template);
-    console.log(users);
 }
 
 function addTweet(username, tweet) {
@@ -21,6 +20,12 @@ function addTweet(username, tweet) {
 
 function verifyUserExistence(username) {
     return users.some(curr => curr.username === username);
+}
+
+function verifyIfStringIsValid( str )  {
+    const tryNum = parseInt(str);
+    // Checa: Se nao eh numero, string vazia, valor indefinido ou qualquer outro valor como array ou objeto.
+    return (isNaN(tryNum) && str != "" && str != undefined && typeof str == "string");
 }
 
 function getTweetsUsingPage(pageId = 1) {
@@ -46,4 +51,18 @@ function getTweetsUsingPage(pageId = 1) {
     return pageTweets;
 }
 
-export {getTweetsUsingPage, verifyUserExistence, addTweet, addUser};
+// StackOverflow que falou essa, achei daora! 
+function isValidHttpUrl(string) {
+    let url;
+    
+    try {
+      url = new URL(string);
+    } catch (_) {
+      return false;  
+    }
+  
+    return url.protocol === "http:" || url.protocol === "https:";
+  }
+
+
+export {verifyIfStringIsValid, getTweetsUsingPage, verifyUserExistence, addTweet, addUser};
